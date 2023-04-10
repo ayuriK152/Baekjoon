@@ -3,41 +3,64 @@ using System.Text;
 
 namespace AlgorithmStudy
 {
-    class boj2751
+    class boj10989
     {
-        static int[] temp = new int[1000000];
         public static void Main(string[] args)
         {
+            StringBuilder sb = new StringBuilder();
             int n = int.Parse(Console.ReadLine());
             int[] arr = new int[n];
-            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < n; i++)
                 arr[i] = int.Parse(Console.ReadLine());
-            MergeSort(arr, 0, n - 1);
+            HeapSort(arr);
             foreach (int i in arr)
                 sb.AppendLine(i.ToString());
             Console.WriteLine(sb);
         }
 
-        static void MergeSort(int[] arr, int left, int right)
+        static void HeapSort(int[] arr)
         {
-            if (left == right) return;
-            int mid = (left + right) / 2;
-            MergeSort(arr, left, mid);
-            MergeSort(arr, mid + 1, right);
+            int[] heap = new int[arr.Length];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                heap[i] = arr[i];
+                int index = i;
+                while (heap[index] < heap[(index - 1) / 2] && index != 0)
+                {
+                    int temp = heap[(index - 1) / 2];
+                    heap[(index - 1) / 2] = heap[index];
+                    heap[index] = temp;
+                    index = (index - 1) / 2;
+                }
+            }
 
-            int pivotL = left, pivotR = mid + 1, current = 0;
-            while (pivotL <= mid && pivotR <= right)
-                temp[current++] = arr[pivotL] <= arr[pivotR] ? arr[pivotL++] : arr[pivotR++];
-            if (pivotL > mid)
-                for (int i = pivotR; i <= right; i++)
-                    temp[current++] = arr[i];
-            else
-                for (int i = pivotL; i <= mid; i++)
-                    temp[current++] = arr[i];
-            for (int i = 0; i < current; i++)
-                arr[i + left] = temp[i];
-            return;
+            int count = heap.Length;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = heap[0];
+                heap[0] = heap[count - 1];
+                count--;
+                int index = 0;
+                while (index * 2 + 1 < count)
+                {
+                    if (index * 2 + 2 < count)
+                    {
+                        if (heap[index] <= heap[index * 2 + 1] && heap[index] <= heap[index * 2 + 2])
+                            break;
+                        index = heap[index * 2 + 1] > heap[index * 2 + 2] ? index * 2 + 2 : index * 2 + 1;
+                    }
+                    else
+                    {
+                        if (heap[index] <= heap[index * 2 + 1])
+                            break;
+                        index = index * 2 + 1;
+                    }
+
+                    int temp = heap[index];
+                    heap[index] = heap[(index - 1) / 2];
+                    heap[(index - 1) / 2] = temp;
+                }
+            }
         }
     }
 }
