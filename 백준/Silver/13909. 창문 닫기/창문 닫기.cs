@@ -1,13 +1,1 @@
-using System;
-
-namespace AlgorithmStudy
-{
-    class boj13909
-    {
-        public static void Main(string[] args)
-        {
-            int n = int.Parse(Console.ReadLine());
-            Console.WriteLine((int)Math.Sqrt(n));
-        }
-    }
-}
+Console.WriteLine((int)Math.Sqrt(int.Parse(Console.ReadLine())));
