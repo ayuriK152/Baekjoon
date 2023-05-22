@@ -17,12 +17,13 @@ namespace AlgorithmStudy
             Console.WriteLine(ParametricSearch(1, lan.Max(), lan, n));
             Console.ReadLine();
 
-            Int64 ParametricSearch(Int64 start, Int64 end, int[] arr, int count)
+            long ParametricSearch(long start, long end, int[] arr, int count)
             {
-                Int64 mid = (start + end) / 2;
-                if (!Calc(arr, mid, count))
+                long mid = (start + end) / 2;
+                bool calcResult = Calc(arr, mid, count);
+                if (!calcResult)
                     return ParametricSearch(start, mid, arr, count);
-                else if (Calc(arr, mid, count) && (start == mid || mid == end))
+                else if (calcResult && (start == mid || mid == end))
                     if (Calc(arr, end, count))
                         return end;
                     else
@@ -31,9 +32,9 @@ namespace AlgorithmStudy
                     return ParametricSearch(mid, end, arr, count);
             }
 
-            bool Calc(int[] arr, Int64 value, int count)
+            bool Calc(int[] arr, long value, int count)
             {
-                Int64 sum = 0;
+                long sum = 0;
                 for (int i = 0; i < arr.Length; i++)
                     sum += arr[i] / value;
 
