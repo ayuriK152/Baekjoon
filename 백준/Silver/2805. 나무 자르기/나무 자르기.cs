@@ -16,10 +16,10 @@ namespace AlgorithmStudy
             Console.WriteLine(ParametricSearch(0, len.Max(), len, k));
             Console.ReadLine();
 
-            Int64 ParametricSearch(Int64 start, Int64 end, int[] arr, int target)
+            long ParametricSearch(long start, long end, int[] arr, int target)  // 이분 탐색용 메소드
             {
-                Int64 mid = (start + end) / 2;
-                if (start == mid || mid == end)
+                long mid = (start + end) / 2;
+                if (start == mid || mid == end)     // 최소값과 최대값 중 어떤 쪽이 답인지 판단하는 조건문
                     if (Calc(arr, target, end))
                         return end;
                     else
@@ -30,9 +30,9 @@ namespace AlgorithmStudy
                     return ParametricSearch(start, mid, arr, target);
             }
 
-            bool Calc(int[] arr, int target, Int64 value)
+            bool Calc(int[] arr, int target, long value)    // 절단기 설정 값에 따른 결과값, 이분 탐색을 통해 넘겨받은 설정값을 기준으로 나뭇가지들을 자른 나머지를 구함
             {
-                Int64 sum = 0;
+                long sum = 0;
                 for (int i = 0; i < arr.Length; i++)
                     if (value < arr[i])
                         sum += arr[i] - value;
