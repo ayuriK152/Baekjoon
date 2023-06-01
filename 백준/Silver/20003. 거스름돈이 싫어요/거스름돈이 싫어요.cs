@@ -17,31 +17,23 @@ namespace AlgorithmStudy
                 denominator[i] = long.Parse(input[1]);
             }
 
-            if (n == 1)
+            long temp = denominator[0];
+            long euclidNum;
+            for (int i = 1; i < n; i++)
             {
-                long euclidNum = Euclid(numerator[0], denominator[0]);
-                Console.WriteLine(numerator[0] / euclidNum + " " + denominator[0] / euclidNum);
+                euclidNum = Euclid(temp, denominator[i]);
+                temp = (temp * denominator[i]) / euclidNum;
             }
-            else
+            for (int i = 0; i < n; i++)
+                numerator[i] *= temp / denominator[i];
+
+            for (int i = 1; i < n; i++)
             {
-                long temp = denominator[0];
-                long euclidNum;
-                for (int i = 1; i < n; i++)
-                {
-                    euclidNum = Euclid(temp, denominator[i]);
-                    temp = (temp * denominator[i]) / euclidNum;
-                }
-                for (int i = 0; i < n; i++)
-                    numerator[i] *= temp / denominator[i];
-
-                for (int i = 1; i < n; i++)
-                {
-                    numerator[0] = Euclid(numerator[0], numerator[i]);
-                }
-
-                euclidNum = Euclid(numerator[0], temp);
-                Console.WriteLine(numerator[0] / euclidNum + " " + temp / euclidNum);
+                numerator[0] = Euclid(numerator[0], numerator[i]);
             }
+
+            euclidNum = Euclid(numerator[0], temp);
+            Console.WriteLine(numerator[0] / euclidNum + " " + temp / euclidNum);
 
             long Euclid(long a, long b)
             {
