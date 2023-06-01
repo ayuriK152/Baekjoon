@@ -37,7 +37,7 @@ namespace AlgorithmStudy
                         count++;
                         break;
                     }
-                    temp /= 10;
+                    temp = (int)(temp / 10.0f);
                 }
             }
 
