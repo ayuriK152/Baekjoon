@@ -12,14 +12,13 @@ namespace AlgorithmStudy
             {
                 for (int j = i + 1; j <= n / 2 + 1; j++)
                 {
-                    if (((j + i) % 2 == 0 && (j + i) * (j - (j + i) / 2) + (j + i) / 2 == n) ||
-                        ((j + i) % 2 == 1 && (j + i) * (j - (j + i) / 2) == n))
+                    int temp = (j + i) % 2 == 0 ? (j + i) * (j - (j + i) / 2) + (j + i) / 2 : (j + i) * (j - (j + i) / 2);
+                    if (temp == n)
                     {
                         count++;
                         break;
                     }
-                    else if (((j + i) % 2 == 0 && (j + i) * (j - (j + i) / 2) + (j + i) / 2 > n) ||
-                        ((j + i) % 2 == 1 && (j + i) * (j - (j + i) / 2) > n))
+                    else if (temp > n)
                     {
                         break;
                     }
