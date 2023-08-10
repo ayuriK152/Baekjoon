@@ -16,26 +16,19 @@ namespace AlgorithmStudy
                 input = Console.ReadLine().Split(' ');
                 int l = int.Parse(input[0]);
                 Room currentRoom = null;
-                if (rooms.Count == 0)
+
+                foreach (Room r in rooms)
+                {
+                    if (r.players.Count < m && Math.Abs(r.players[0].level - l) <= 10)
+                    {
+                        currentRoom = r;
+                        break;
+                    }
+                }
+                if (currentRoom == null)
                 {
                     currentRoom = new Room(m);
                     rooms.Add(currentRoom);
-                }
-                else
-                {
-                    foreach (Room r in rooms)
-                    {
-                        if (r.players.Count < m && Math.Abs(r.players[0].level - l) <= 10)
-                        {
-                            currentRoom = r;
-                            break;
-                        }
-                    }
-                    if (currentRoom == null)
-                    {
-                        currentRoom = new Room(m);
-                        rooms.Add(currentRoom);
-                    }
                 }
 
                 currentRoom.players.Add(new Player(l, input[1]));
