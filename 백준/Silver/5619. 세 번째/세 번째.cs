@@ -12,10 +12,10 @@ namespace AlgorithmStudy
             for (int i = 0; i < n; i++)
                 arr[i] = int.Parse(Console.ReadLine());
             Array.Sort(arr);
-            List<int> selected = new List<int>();
-            selected.Add(arr[0]); selected.Add(arr[1]); selected.Add(arr[2]);
-            if (n > 3)
-                selected.Add(arr[3]);
+            List<int> selected = new List<int>(new int[] { arr[0], arr[1], arr[2] });
+
+            if (n > 3) selected.Add(arr[3]);
+
             int[] result = n > 3 ? new int[12] : new int[6];
             int index = 0;
             for (int i = 0; i < selected.Count; i++)
