@@ -1,60 +1,76 @@
-#include <queue>
 #include <iostream>
-#include <sstream>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <map>
+#include <algorithm>
+#include <string>
 using namespace std;
 
-vector<int> vertex[1000];
-bool check[1000] = { false };
-stringstream s;
-
-void DFS(int start) {
-	s << start + 1 << " ";
-	check[start] = true;
-	for (int i = 0; i < vertex[start].size(); i++) {
-		if (!check[vertex[start][i]]) {
-			DFS(vertex[start][i]);
-		}
-	}
-}
-
-void BFS(int start) {
-	queue<int> q;
-	q.push(start);
-	check[start] = true;
-	s << start + 1<< " ";
-	while (q.size() > 0) {
-		int current = q.front();
-		q.pop();
-		for (int i = 0; i < vertex[current].size(); i++) {
-			if (!check[vertex[current][i]]) {
-				q.push(vertex[current][i]);
-				check[vertex[current][i]] = true;
-				s << vertex[current][i] + 1 << " ";
-			}
-		}
-	}
-}
+map<int, vector<int>> graph;
+map<int, bool> visited;
 
 int main() {
+	string result;
 	int n, m, v;
-	int a, b;
-
 	cin >> n >> m >> v;
-
 	for (int i = 0; i < m; i++) {
+		int a, b;
 		cin >> a >> b;
-		vertex[a - 1].push_back(b - 1);
-		vertex[b - 1].push_back(a - 1);
+		graph[a].push_back(b);
+		graph[b].push_back(a);
 	}
 
-	for (int i = 0; i < n; i++)
-		sort(vertex[i].begin(), vertex[i].end());
+	for (auto& node : graph)
+		sort(node.second.begin(), node.second.end());
+	for (auto& b : visited)
+		b.second = false;
 
-	DFS(v - 1);
-	fill_n(check, n, false);
-	s << "\n";
-	BFS(v - 1);
+	// DFS
+	stack<int> s;
+	s.push(v);
+	while (!s.empty()) {
+		int cur = s.top();
+		s.pop();
+		if (visited[cur])
+			continue;
 
-	cout << s.str();
+		visited[cur] = true;
+		for (int i = graph[cur].size() - 1; i >= 0; i--) {
+			if (!visited[graph[cur][i]]) {
+				s.push(graph[cur][i]);
+			}
+		}
+
+		result.append(to_string(cur));
+		if (!s.empty())
+			result.append(" ");
+	}
+
+	result.append("\n");
+	for (auto& b : visited)
+		b.second = false;
+	visited[v] = true;
+
+	// BFS
+	queue<int> q;
+	q.push(v);
+	while (!q.empty()) {
+		int cur = q.front();
+		q.pop();
+		for (int node : graph[cur]) {
+			if (!visited[node]) {
+				q.push(node);
+				visited[node] = true;
+			}
+		}
+
+		result.append(to_string(cur));
+		if (!q.empty())
+			result.append(" ");
+	}
+
+	cout << result;
+
 	return 0;
 }
