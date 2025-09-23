@@ -38,10 +38,14 @@ int main() {
 
 	for (int i = 0; i < v; i++) {
 		if (minDist[i] >= 0)
-			cout << minDist[i] << "\n";
+			answer.append(to_string(minDist[i]) + "\n");
+			// cout << minDist[i] << "\n";
 		else
-			cout << "INF\n";
+			answer.append("INF\n");
+			// cout << "INF\n";
 	}
+
+	cout << answer;
 
 	return 0;
 }
