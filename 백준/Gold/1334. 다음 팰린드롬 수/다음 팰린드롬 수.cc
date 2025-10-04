@@ -22,36 +22,25 @@ int main() {
 
 	if (numStr.size() > 1) {
 		while (true) {
-			int left, right;
-
-			if (numStr.size() % 2 == 0) {
-				left = numStr.size() / 2 - 1;
-				right = left + 1;
-			}
-			else {
-				left = numStr.size() / 2 - 1;
-				right = left + 2;
-			}
+			int left = 0, right = numStr.size() - 1;
 
 			bool flag = false;
 			while (true) {
-				if (numStr[left] > numStr[right]) {
+				if (numStr[left] > numStr[right])
 					numStr[right] = numStr[left];
-					for (int i = right + 1; i < numStr.size(); i++)
-						numStr[i] = '0';
-				}
+
 				if (numStr[left] < numStr[right]) {
 					for (int i = right; i < numStr.size(); i++)
 						numStr[i] = '0';
 					NumStringAddition(numStr, right - 1);
 					break;
 				}
-				if (left == 0) {
+				if (left == numStr.size() / 2 - 1) {
 					flag = true;
 					break;
 				}
-				left--;
-				right++;
+				left++;
+				right--;
 			}
 
 			if (flag)
