@@ -1,38 +1,39 @@
-#include <iostream>
-#include <vector>
-#include <map>
-#include <queue>
+#include <bits/stdc++.h>
 using namespace std;
 
 int main() {
-	map<int, vector<int>> com;
+	bool check[100];
+	memset(check, false, sizeof(bool) * 100);
+	vector<int> graph[100];
+
 	int n, m;
 	cin >> n >> m;
 
 	for (int i = 0; i < m; i++) {
 		int a, b;
 		cin >> a >> b;
-		com[a].push_back(b);
-		com[b].push_back(a);
+		graph[a - 1].push_back(b - 1);
+		graph[b - 1].push_back(a - 1);
 	}
 
-	int result = 0;
-	map<int, bool> bfsCheck;
 	queue<int> q;
-	bfsCheck[1] = true;
-	q.push(1);
+	q.push(0);
+	check[0] = true;
+	int count = 0;
 	while (!q.empty()) {
-		for (int i : com[q.front()]) {
-			if (!bfsCheck[i]) {
-				bfsCheck[i] = true;
-				q.push(i);
-				result++;
+		int curr = q.front();
+		q.pop();
+
+		for (int c : graph[curr]) {
+			if (!check[c]) {
+				check[c] = true;
+				q.push(c);
+				count++;
 			}
 		}
-		q.pop();
 	}
 
-	cout << result;
+	printf("%d", count);
 
 	return 0;
 }
