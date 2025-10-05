@@ -1,56 +1,42 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
 
-vector<int> nums;
-vector<int> sequence;
-string result;
-bool visited[10];
+int nums[8];
+bool checks[8];
+vector<int> output;
 int n, m;
 
-void Recursive(int len) {
-	if (len == m - 1) {
-		for (int i = 0; i < sequence.size(); i++) {
-			result.append(to_string(sequence[i]));
-			if (i != sequence.size() - 1)
-				result.append(" ");
-		}
-		result.append("\n");
+void Recursive(int idx, int count) {
+	if (count == 0) {
+		for (int i : output)
+			cout << i << " ";
+		cout << nums[idx] << "\n";
+
+		return;
 	}
 
+	output.push_back(nums[idx]);
+	checks[idx] = true;
 	for (int i = 0; i < n; i++) {
-		if (!visited[i]) {
-			visited[i] = true;
-			sequence.push_back(nums[i]);
-			Recursive(len + 1);
-			sequence.pop_back();
-			visited[i] = false;
-		}
+		if (checks[i])
+			continue;
+		Recursive(i, count - 1);
 	}
+	output.erase(output.end() - 1);
+	checks[idx] = false;
 }
 
 int main() {
+	memset(checks, false, sizeof(bool) * 8);
 	cin >> n >> m;
-	for (int i = 0; i < n; i++) {
-		int a;
-		cin >> a;
-		nums.push_back(a);
-	}
-	sort(nums.begin(), nums.end());
 
-	for (int i = 0; i < n; i++) {
-		visited[i] = true;
-		sequence.push_back(nums[i]);
-		Recursive(0);
-		sequence.pop_back();
-		visited[i] = false;
-	}
+	for (int i = 0; i < n; i++)
+		cin >> nums[i];
 
-	result.erase(result.end() - 1);
+	sort(nums, nums + n);
 
-	cout << result;
+	for (int i = 0; i < n; i++)
+		Recursive(i, m - 1);
 
 	return 0;
 }
